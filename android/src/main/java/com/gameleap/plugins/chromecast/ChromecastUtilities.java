@@ -879,16 +879,42 @@ final class ChromecastUtilities {
         }
 
         TextTrackStyle trackStyle = ChromecastUtilities.parseTextTrackStyle(textTrackStyle);
+        List tracks = new ArrayList();
+        if(!customData.isNull("tracks")){
+            tracks = getListTracks(customData);
+        }
 
         mediaInfoBuilder
                 .setContentType(contentType)
                 .setCustomData(customData)
                 .setStreamType(intStreamType)
                 .setStreamDuration(duration)
-                .setTextTrackStyle(trackStyle);
+                .setTextTrackStyle(trackStyle)
+                .setMediaTracks(tracks);
 
         return mediaInfoBuilder.build();
     }
+
+    private static List getListTracks(JSONObject customData){
+        List tracks = new ArrayList();
+        try {
+          JSONArray arrayTracks = customData.getJSONArray("tracks");
+          for (int i = 0; i < arrayTracks.length(); i++) {
+            JSONObject object = arrayTracks.getJSONObject(i);
+            MediaTrack subtitle = new MediaTrack.Builder(i + 1,
+              MediaTrack.TYPE_TEXT)
+              .setName(object.getString("label"))
+              .setSubtype(MediaTrack.SUBTYPE_SUBTITLES)
+              .setContentId(object.getString("src"))
+              .setLanguage(object.getString("label"))
+              .build();
+              tracks.add(subtitle);
+          }
+        } catch (JSONException e) {
+          throw new RuntimeException(e);
+        }
+        return tracks;
+      }
 
     private static MediaMetadata createMediaMetadata(JSONObject metadata) {
 

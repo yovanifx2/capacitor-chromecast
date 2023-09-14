@@ -1,11 +1,11 @@
 import { ListenerCallback, PluginListenerHandle } from '@capacitor/core';
 
 export interface ChromecastPlugin {
-  initialize(): Promise<void>;
+  initialize(options: any): Promise<void>;
 
   requestSession(): Promise<void>;
 
-  launchMedia(mediaUrl: string): Promise<boolean>;
+  loadMedia(mediaUrl: any): Promise<boolean>;
 
   addListener(
     eventName: string,

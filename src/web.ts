@@ -28,7 +28,7 @@ export class ChromecastWeb extends WebPlugin implements ChromecastPlugin {
     console.error('GCast initialization failed', err);
   }
 
-  public async initialize(appId?: string) {
+  public async initialize(options: any) {
     const script = window['document'].createElement('script');
     script.setAttribute('type', 'text/javascript');
     script.setAttribute(
@@ -43,7 +43,7 @@ export class ChromecastWeb extends WebPlugin implements ChromecastPlugin {
       if (isAvailable) {
         this.cast = window['chrome'].cast;
         const sessionRequest = new this.cast.SessionRequest(
-          appId || this.cast.media.DEFAULT_MEDIA_RECEIVER_APP_ID,
+          (options === null ? void 0 : options.appId) || this.cast.media.DEFAULT_MEDIA_RECEIVER_APP_ID          
         );
 
         const apiConfig = new this.cast.ApiConfig(
@@ -53,8 +53,9 @@ export class ChromecastWeb extends WebPlugin implements ChromecastPlugin {
             if (status === this.cast.ReceiverAvailability.AVAILABLE) {
             }
           },
+          this.cast.AutoJoinPolicy.ORIGIN_SCOPED
         );
-        this.cast.initialize(apiConfig, this.onInitSuccess, this.onError);
+        this.cast.initialize(apiConfig, this.onInitSuccess, this.onError);        
       }
     };
   }
@@ -66,17 +67,19 @@ export class ChromecastWeb extends WebPlugin implements ChromecastPlugin {
     });
   }
 
-  public async launchMedia(media: string) {
-    let mediaInfo = new this.cast.media.MediaInfo(media);
-    let request = new this.cast.media.LoadRequest(mediaInfo);
-    console.log('launch media with session', this.session);
+  public async loadMedia(media: any) {
+    const mediaInfo = new this.cast.media.MediaInfo(media.contentId);
+    const request = new this.cast.media.LoadRequest(mediaInfo);
+    console.log('launch media with session', this.session); 
 
     if (!this.session) {
-      window.open(media);
+      window.open(media.url);
       return false;
     }
     // this.session.loadMedia(request, this.onMediaDiscovered.bind(this, 'loadMedia'), this.onMediaError);
     this.session.loadMedia(request);
     return true;
-  }
+  }  
+
+  
 }

@@ -231,6 +231,7 @@ public class ChromecastSession {
                 MediaInfo mediaInfo = ChromecastUtilities.createMediaInfo(contentId, customData, contentType, duration, streamType, metadata, textTrackStyle);
                 MediaLoadRequestData loadRequest = new MediaLoadRequestData.Builder()
                         .setMediaInfo(mediaInfo)
+                        .setCustomData(customData)
                         .setAutoplay(autoPlay)
                         .setCurrentTime((long) currentTime * 1000)
                         .build();

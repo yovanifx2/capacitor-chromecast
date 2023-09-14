@@ -13,9 +13,9 @@ npx cap sync
 
 <docgen-index>
 
-* [`initialize()`](#initialize)
+* [`initialize(...)`](#initialize)
 * [`requestSession()`](#requestsession)
-* [`launchMedia(...)`](#launchmedia)
+* [`loadMedia(...)`](#loadmedia)
 * [`addListener(string, ...)`](#addlistenerstring)
 * [Interfaces](#interfaces)
 * [Type Aliases](#type-aliases)
@@ -25,11 +25,15 @@ npx cap sync
 <docgen-api>
 <!--Update the source file JSDoc comments and rerun docgen to update the docs below-->
 
-### initialize()
+### initialize(...)
 
 ```typescript
-initialize() => Promise<void>
+initialize(options: any) => Promise<void>
 ```
+
+| Param         | Type             |
+| ------------- | ---------------- |
+| **`options`** | <code>any</code> |
 
 --------------------
 
@@ -43,15 +47,15 @@ requestSession() => Promise<void>
 --------------------
 
 
-### launchMedia(...)
+### loadMedia(...)
 
 ```typescript
-launchMedia(mediaUrl: string) => Promise<boolean>
+loadMedia(mediaUrl: any) => Promise<boolean>
 ```
 
-| Param          | Type                |
-| -------------- | ------------------- |
-| **`mediaUrl`** | <code>string</code> |
+| Param          | Type             |
+| -------------- | ---------------- |
+| **`mediaUrl`** | <code>any</code> |
 
 **Returns:** <code>Promise&lt;boolean&gt;</code>
 
